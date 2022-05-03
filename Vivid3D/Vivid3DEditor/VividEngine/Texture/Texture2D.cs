@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
+using System.Runtime.InteropServices;
 
 namespace VividEngine.Texture
 {
@@ -22,7 +23,7 @@ namespace VividEngine.Texture
             image_width = image_data.Width;
             image_height = image_data.Height;
 
-            byte[] raw = new byte[image_width * image_height * 3];
+            byte[] raw = new byte[image_width * image_height * 4];
 
             int raw_os = 0;
 
@@ -33,29 +34,44 @@ namespace VividEngine.Texture
 
                     var pix = image_data.GetPixel(x, y);
 
-                    raw[raw_os++] = pix.R;
-                    raw[raw_os++] = pix.G;
-                    raw[raw_os++] = pix.B;
+                    raw[raw_os++] = (byte)pix.R;
+                    raw[raw_os++] = (byte)pix.G;
+                    raw[raw_os++] = (byte)pix.B;
+                    raw[raw_os++] = (byte)255;
 
 
                 }
             }
 
-
+            
             Handle = GL.CreateTexture(TextureTarget.Texture2d);
-            GL.TextureStorage2D(Handle, 1, SizedInternalFormat.Rgba32f, image_width, image_height);
+            GL.TextureStorage2D(Handle, 1, SizedInternalFormat.Rgba8, image_width, image_height);
 
-             GL.TextureSubImage2D(Handle, 0, 0, 0, image_width, image_height, PixelFormat.Bgra, PixelType.UnsignedByte, image_data.LockBits(new Rectangle(0, 0, image_width, image_height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb).Scan0);
-            Console.WriteLine("Created texture2D. W:" + image_width + " H:" + image_height + " Handle:" + Handle.Handle);
-
+            unsafe
+            {
+                GCHandle pinnedArray = GCHandle.Alloc(raw, GCHandleType.Pinned);
+                IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                GL.TextureSubImage2D(Handle, 0, 0, 0, image_width, image_height, PixelFormat.Rgba, PixelType.UnsignedByte,pointer);
+                Console.WriteLine("Created texture2D. W:" + image_width + " H:" + image_height + " Handle:" + Handle.Handle);
+            }
+            GL.TextureParameteri(Handle, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TextureParameteri(Handle, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TextureParameteri(Handle, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TextureParameteri(Handle, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.GenerateTextureMipmap(Handle);
         }
 
-        protected override void Bind(TextureUnit unit)
+        public override void Bind(TextureUnit unit)
         {
+
+            uint t_unit = (uint)unit;
+
+            GL.BindImageTexture(t_unit, Handle, 0, false, 0, BufferAccessARB.ReadOnly, InternalFormat.Rgba8);
+             
             base.Bind(unit);
         }
 
-        protected override void Release(TextureUnit unit)
+        public override void Release(TextureUnit unit)
         {
             base.Release(unit);
         }

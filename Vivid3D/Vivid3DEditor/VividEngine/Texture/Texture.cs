@@ -26,7 +26,7 @@ namespace VividEngine.Texture
             set;
         }
 
-        protected virtual void Bind(TextureUnit unit)
+        public virtual void Bind(TextureUnit unit)
         { 
 
             
@@ -34,7 +34,7 @@ namespace VividEngine.Texture
 
         }
         
-        protected virtual void Release(TextureUnit unit)
+        public virtual void Release(TextureUnit unit)
         {
             
         }
