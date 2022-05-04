@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
+using System.Threading;
 
 
 namespace VividEngine.Texture
@@ -21,6 +22,59 @@ namespace VividEngine.Texture
     {
 
         protected TextureHandle Handle
+        {
+            get;
+            set;
+        }
+
+        public int Width
+        {
+            get;
+            set;
+        }
+
+        public int Height
+        {
+            get;
+            set;
+        }
+
+        public byte[] Raw
+        {
+            get;
+            set;
+        }
+
+        public bool Loading
+        {
+            get;
+            set;
+        }
+
+        public bool DataBound
+        {
+            get;
+            set;
+        }
+
+        public string LoadPath
+        {
+            get;
+            set;
+        }
+
+        public Thread LoadThread
+        {
+            get;
+            set;
+        }
+
+        public Texture()
+        {
+            Loading = false;
+        }
+
+        public static List<Texture2D> Threading
         {
             get;
             set;

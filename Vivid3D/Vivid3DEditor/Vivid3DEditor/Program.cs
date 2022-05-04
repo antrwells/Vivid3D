@@ -5,8 +5,8 @@ OpenTK.Windowing.Desktop.GameWindowSettings game_settings = new OpenTK.Windowing
 OpenTK.Windowing.Desktop.NativeWindowSettings native_settings = new OpenTK.Windowing.Desktop.NativeWindowSettings();
 
 game_settings.IsMultiThreaded = false;
-game_settings.UpdateFrequency = 60;
-game_settings.RenderFrequency = 60;
+game_settings.UpdateFrequency = 90;
+game_settings.RenderFrequency = 120;
 
 native_settings.WindowState = OpenTK.Windowing.Common.WindowState.Normal;
 native_settings.StartVisible = true;

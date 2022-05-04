@@ -11,8 +11,8 @@ namespace VividEngine.Draw.Simple
 {
     public class BasicDraw2D
     {
-        BufferHandle[] buffer;
-        VertexArrayHandle[] arrays;
+        BufferHandle[]? buffer;
+        VertexArrayHandle[]? arrays;
 
         float[] data = new float[24];
         EXBasic2D fx1;
@@ -85,21 +85,24 @@ namespace VividEngine.Draw.Simple
             data[23] = 0;
         }
 
-        public void Rect(int x,int y,int w,int h,VividEngine.Texture.Texture2D tex)
+        public void Rect(int x, int y, int w, int h, VividEngine.Texture.Texture2D tex, Vector4 col)
         {
             //tex.Bind(Texture.TextureUnit.Unit0);
 
             SetData(x, y, w, h);
             GenerateGL();
 
+           
 
-            Matrix4 pm = Matrix4.CreateOrthographicOffCenter(0, 1024, 768, 0, 0, 1.0f);
+
+            Matrix4 pm = Matrix4.CreateOrthographicOffCenter(0,App.AppInfo.FrameWidth, App.AppInfo.FrameHeight,0, 0, 1.0f);
 
             fx1.Bind();
             tex.Bind(Texture.TextureUnit.Unit0);
             fx1.SetUniform("image",0);
             fx1.SetUniform("proj", pm);
-
+            fx1.SetUniform("texSize", new Vector2(tex.Width, tex.Height));
+            fx1.SetUniform("drawCol", col);
 
             GL.BindVertexArray(arrays[0]);
             GL.MemoryBarrier(MemoryBarrierMask.ShaderImageAccessBarrierBit);

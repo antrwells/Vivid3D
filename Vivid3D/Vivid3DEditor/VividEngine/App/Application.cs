@@ -15,7 +15,31 @@ namespace VividEngine.App
 
     //opengl callback class
     //
- 
+    public class AppInfo
+    {
+        public static int Width
+        {
+            get;
+            set;
+        }
+        public static int Height
+        {
+            get;
+            set;
+        }
+    
+        public static int FrameWidth
+        {
+            get;
+            set;
+        }
+
+        public static int FrameHeight
+        {
+            get;
+            set;
+        }   
+    }
     
     public class Application : GameWindow
     {
@@ -28,7 +52,12 @@ namespace VividEngine.App
           //  GL.DebugMessageCallback(GLDebugProc.`   , null);
             uint[] ids = new uint[32];
             ids[0] = 0;
-            GL.DebugMessageControl(DebugSource.DontCare, DebugType.DontCare, DebugSeverity.DontCare, ids, true); 
+            GL.DebugMessageControl(DebugSource.DontCare, DebugType.DontCare, DebugSeverity.DontCare, ids, true);
+            AppInfo.Width = native_settings.Size.X;
+            AppInfo.Height = native_settings.Size.Y;
+            AppInfo.FrameWidth = native_settings.Size.X;
+            AppInfo.FrameHeight = native_settings.Size.Y;
+            Console.WriteLine("App begun. Initial resolution X:" + AppInfo.Width + " Y:" + AppInfo.Height);
         }
 
         protected override void OnLoad()
@@ -37,17 +66,28 @@ namespace VividEngine.App
             this.VSync = VSyncMode.On;
             GL.Disable(EnableCap.DepthTest);
             GL.Disable(EnableCap.CullFace);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha); 
             GL.Viewport(0, 0, Size.X, Size.Y);
             Console.WriteLine("Setup OpenGL. Resolution X:" + Size.X + " Resolution Y:" + Size.Y);
-
+            Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(0, 0);
             InitApp();
-            
+
+            CursorVisible = false;
+
             //Texture2D tex = new Texture2D("data/test1.jpg", false);
 
            // Effect fx = new Effect("engine/shader/basic_draw_vertex.glsl", "engine/shader/basic_draw_frag.glsl");
 
         }
-        
+
+        protected override void OnMouseMove(MouseMoveEventArgs e)
+        {
+            //base.OnMouseMove(e);
+            Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(e.X, e.Y);
+
+        }
+
         public virtual void InitApp()
         {
             

@@ -12,47 +12,130 @@ namespace VividEngine.Texture
     public class Texture2D : Texture
     {
 
+        public void _LoadDataBM()
+        {
+
+            string path = LoadPath;
+
+            Bitmap image_data = new Bitmap(path);
+
+            Width = image_data.Width;
+            Height = image_data.Height;
+            
+  //          Width = image_width;
+//            Height = image_height;
+
+            Raw = new byte[Width * Height * 4];
+
+            int raw_os = 0;
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+
+                    var pix = image_data.GetPixel(x, y);
+
+                    Raw[raw_os++] = (byte)pix.R;
+                    Raw[raw_os++] = (byte)pix.G;
+                    Raw[raw_os++] = (byte)pix.B;
+                    Raw[raw_os++] = (byte)pix.A;
+
+
+                }
+            }
+
+            FileStream fs = new FileStream(path + ".cache", FileMode.Create, FileAccess.Write);
+            BinaryWriter w = new BinaryWriter(fs);
+
+            w.Write(Width);
+            w.Write(Height);
+            w.Write(4);
+
+            w.Write(Raw);
+
+
+
+            w.Flush();
+            fs.Flush();
+            w.Close();
+            fs.Close();
+            Loading = false;
+
+        }
+        public void _LoadData()
+        {
+            
+
+            string path = LoadPath;
+
+            
+            
+            FileStream fi = new FileStream(path + ".cache", FileMode.Open, FileAccess.Read);
+            BinaryReader r = new BinaryReader(fi);
+
+            Width = r.ReadInt32();
+            Height = r.ReadInt32();
+            int bpp = r.ReadInt32();
+
+            Raw = new byte[Width * Height * 4];
+
+            r.Read(Raw, 0, Width * Height * 4);
+
+            r.Close();
+            fi.Close();
+            Loading = false;
+        }
+
         public Texture2D(string path,bool force_alpha = false)
         {
 
             int image_width=64;
             int image_height=64;
 
-            Bitmap image_data = new Bitmap(path);
+            byte[] raw;
 
-            image_width = image_data.Width;
-            image_height = image_data.Height;
-
-            byte[] raw = new byte[image_width * image_height * 4];
-
-            int raw_os = 0;
-
-            for(int y = 0; y < image_height; y++)
+            if (File.Exists(path + ".cache"))
             {
-                for(int x = 0; x < image_width; x++)
-                {
 
-                    var pix = image_data.GetPixel(x, y);
+                LoadPath = path;
 
-                    raw[raw_os++] = (byte)pix.R;
-                    raw[raw_os++] = (byte)pix.G;
-                    raw[raw_os++] = (byte)pix.B;
-                    raw[raw_os++] = (byte)255;
+                LoadThread = new Thread(new ThreadStart(_LoadData));
+                Loading = true;
+                DataBound = false;
+                LoadThread.Start();
+               
 
 
-                }
+            }
+            else
+            {
+
+                LoadPath = path;
+                LoadThread = new Thread(new ThreadStart(_LoadDataBM));
+                Loading = true;
+                DataBound = false;
+                LoadThread.Start();
+
+               
+
             }
 
-            
+         
+        }
+
+
+        public void BindData()
+        {
             Handle = GL.CreateTexture(TextureTarget.Texture2d);
-            GL.TextureStorage2D(Handle, 1, SizedInternalFormat.Rgba8, image_width, image_height);
+            GL.TextureStorage2D(Handle, 1, SizedInternalFormat.Rgba8, Width, Height);
 
             unsafe
             {
-                GCHandle pinnedArray = GCHandle.Alloc(raw, GCHandleType.Pinned);
+                GCHandle pinnedArray = GCHandle.Alloc(Raw, GCHandleType.Pinned);
                 IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                GL.TextureSubImage2D(Handle, 0, 0, 0, image_width, image_height, PixelFormat.Rgba, PixelType.UnsignedByte,pointer);
-                Console.WriteLine("Created texture2D. W:" + image_width + " H:" + image_height + " Handle:" + Handle.Handle);
+                GL.TextureSubImage2D(Handle, 0, 0, 0, Width, Height, PixelFormat.Rgba, PixelType.UnsignedByte, pointer);
+                Console.WriteLine("Created texture2D. W:" + Width + " H:" + Height + " Handle:" + Handle.Handle);
             }
             GL.TextureParameteri(Handle, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TextureParameteri(Handle, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -63,6 +146,14 @@ namespace VividEngine.Texture
 
         public override void Bind(TextureUnit unit)
         {
+
+            if (Loading) return;
+            if (DataBound == false)
+            {
+                DataBound = true;
+                BindData();               
+
+            }
 
             uint t_unit = (uint)unit;
 
