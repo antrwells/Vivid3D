@@ -40,5 +40,11 @@ namespace VividEngine.Resonance2
             set;
         }
 
+        public Font.FontTTF SystemFont
+        {
+            get;
+            set;
+        }
+
     }
 }

@@ -112,7 +112,11 @@ namespace VividEngine.Resonance2
             if (form_over != FormOver && form_over !=null)
             {
 
-                form_over.OnEnter();
+                if (FormPressed[0] != form_over)
+                {
+                    form_over.OnEnter();
+                }
+
                 if (FormOver != null)
                 {
                     if (FormPressed[0] != FormOver)
@@ -150,6 +154,7 @@ namespace VividEngine.Resonance2
                     if (tt > 250)
                     {
                         clicks = 0;
+                        clicked = false;
                     }
                 }
                 if (clicked)

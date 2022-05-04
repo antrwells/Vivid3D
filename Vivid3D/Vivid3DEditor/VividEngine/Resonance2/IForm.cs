@@ -30,11 +30,21 @@ namespace VividEngine.Resonance2
             set;
         }
 
+
+
         public Vector2i Size
         {
-            get;
-            set;
+            get
+            {
+                return _Size;
+            }
+            set
+            {
+                _Size = value;
+                Resized();
+            }
         }
+        private Vector2i _Size = new Vector2i(0, 0);
 
         public Vector4 Color
         {
@@ -55,6 +65,18 @@ namespace VividEngine.Resonance2
         }
 
         public bool Focus
+        {
+            get;
+            set;
+        }
+
+        public bool Over
+        {
+            get;
+            set;
+        }
+
+        public bool Drag
         {
             get;
             set;
@@ -91,7 +113,7 @@ namespace VividEngine.Resonance2
 
             Root = null;
             Child = new List<IForm>();
-            Set(0, 0, 0, 0);
+           // Set(0, 0, 0, 0);
             SetText("");
             SetColor(1, 1, 1, 1);
 
@@ -112,12 +134,14 @@ namespace VividEngine.Resonance2
         {
             Position = new Vector2i(x, y);
             Size = new Vector2i(w, h);
+            Resized();
             return this;
         }
 
         public IForm SetText(string text)
         {
             Text = text;
+            Renamed();
             return this;
         }
 
@@ -169,6 +193,17 @@ namespace VividEngine.Resonance2
         }
 
 
+        public virtual void Resized()
+        {
+
+
+        }
+
+        public virtual void Renamed()
+        {
+            
+        }
+
         public virtual void OnEnter()
         {
 
@@ -203,6 +238,15 @@ namespace VividEngine.Resonance2
         /// Drawing
         /// </summary>
 
+        public void DrawText(string text,int x,int y)
+        {
+
+            var img = UserInterface.ActiveInterface.Theme.SystemFont.GenString(text);
+            Draw(img, x, y, img.Width, img.Height, new Vector4(1, 1, 1, 1));
+            
+
+        }
+
         public void DrawButton()
         {
             Draw(UserInterface.ActiveInterface.Theme.Button);
@@ -213,12 +257,22 @@ namespace VividEngine.Resonance2
             Draw(UserInterface.ActiveInterface.Theme.Frame);
         }
     
+        public void DrawTitle()
+        {
+            Draw(UserInterface.ActiveInterface.Theme.WindowTitle);
+        }
 
         public void Draw(Texture2D image)
         {
             var render_pos = RenderPosition;
             UserInterface.Draw.Rect(render_pos.X, render_pos.Y, Size.X, Size.Y,image, Color);
         }
+
+        public void Draw(Texture2D image, int x,int y,int w,int h,Vector4 col)
+        {
+            UserInterface.Draw.Rect(x, y, w, h, image, col);
+        }
+        
     }
     
 }

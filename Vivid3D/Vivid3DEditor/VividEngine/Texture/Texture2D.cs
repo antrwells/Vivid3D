@@ -87,6 +87,19 @@ namespace VividEngine.Texture
             Loading = false;
         }
 
+        public Texture2D(VividEngine.Pixels.PixelMap map)
+        {
+
+            Width = map.Width;
+            Height = map.Height;
+
+            Raw = map.Data;
+            BindData();
+            Loading = false;
+            DataBound = true;
+            
+
+        }
         public Texture2D(string path,bool force_alpha = false)
         {
 

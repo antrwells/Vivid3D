@@ -31,8 +31,9 @@ namespace Vivid3DEditor
 
             var frame1 = new IFrame().Set(20, 20, 300, 500);
             var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1");
+            var win = new IWindow().Set(20, 20, 300, 500).SetText("Test Window");
 
-            UI.Add(frame1).Add(but1);
+            UI.Add(win);
             
             base.InitApp();
             //tex1 = new Texture2D("data/t1.png", false);

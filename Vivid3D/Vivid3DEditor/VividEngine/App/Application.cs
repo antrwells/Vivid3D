@@ -72,6 +72,7 @@ namespace VividEngine.App
             Console.WriteLine("Setup OpenGL. Resolution X:" + Size.X + " Resolution Y:" + Size.Y);
             Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(0, 0);
             Input.AppInput.MouseButton = new bool[32];
+            Font.FontTTF.Init();
             InitApp();
 
             CursorVisible = false;
