@@ -42,6 +42,12 @@ namespace VividEngine.Resonance2
             set;
         }
 
+        private long[] PrevClick
+        {
+            get;
+            set;
+        }
+
         public IForm FormActive
         {
             get;
@@ -69,6 +75,7 @@ namespace VividEngine.Resonance2
             ActiveInterface = this;
             prev_mouse = new Vector2(0, 0);
             FormPressed = new IForm[32];
+            PrevClick = new long[32];
         }
 
         public IForm Add(IForm form)
@@ -85,7 +92,9 @@ namespace VividEngine.Resonance2
             }
             return forms[0];
         }
-
+        int clicks = 0;
+        int clicktime = 0;
+        bool clicked = false;
         public void UpdateUI()
         {
             Vector2 cur_mouse = Input.AppInput.MousePosition;
@@ -122,10 +131,62 @@ namespace VividEngine.Resonance2
             }
 
 
+            //check for double click
+            
+
+            if (Input.AppInput.MouseButton[0])
+            {
+                if (!clicked)
+                {
+                    clicked = true;
+                    clicktime = Environment.TickCount;
+                }
+            }
+            else
+            {
+                if (clicks > 0)
+                {
+                    int tt = Environment.TickCount - clicktime;
+                    if (tt > 250)
+                    {
+                        clicks = 0;
+                    }
+                }
+                if (clicked)
+                {
+                   
+
+                    
+                    clicked = false;
+                    int tt = Environment.TickCount - clicktime;
+                    if (tt < 250)
+                    {
+                        clicks++;
+                    }
+                    else
+                    {
+                        clicks = 0;
+                    }
+                    //clicktime = Environment.TickCount;
+                    if (clicks == 2)
+                    {
+                        form_over.OnDoubleClick(0);
+                        clicks = 0;
+                    }
+                    
+                }
+            }
+
+            Console.WriteLine("Clicks:" + clicks);
+
             for (int i = 0; i < 16; i++)
             {
                 if (Input.AppInput.MouseButton[i])
                 {
+                    if (i == 0)
+                    {
+                      
+                    }                    
                     if (FormPressed[i] == null)
                     {
                         form_over.OnMouseDown(i);
@@ -139,6 +200,10 @@ namespace VividEngine.Resonance2
                 }
                 else
                 {
+                    if (i == 0)
+                    {
+                       
+                    }
                     if (FormPressed[i] !=null)
                     {
                         FormPressed[i].OnMouseUp(i);

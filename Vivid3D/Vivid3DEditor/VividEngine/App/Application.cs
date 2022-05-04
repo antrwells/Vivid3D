@@ -102,6 +102,10 @@ namespace VividEngine.App
 
         }
 
+        
+        
+
+
         public virtual void InitApp()
         {
             

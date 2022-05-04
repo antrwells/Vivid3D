@@ -37,6 +37,14 @@ namespace VividEngine.Resonance2.Forms
             Console.WriteLine("Mx:" + x + " MY:" + y + " DX:" + x_delta + " DY:" + y_delta);
         }
 
+        public override void OnDoubleClick(int button)
+        {
+            //base.OnDoubleClick(button);
+            Position = new OpenTK.Mathematics.Vector2i(Position.X + 30, Position.Y);
+
+
+                }
+
         public override void OnMouseDown(int button)
         {
             Color = new OpenTK.Mathematics.Vector4(2, 1, 1, 1);

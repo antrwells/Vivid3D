@@ -189,6 +189,11 @@ namespace VividEngine.Resonance2
             
         }
 
+        public virtual void OnDoubleClick(int button)
+        {
+            
+        }
+
         public virtual void OnMouseUp(int button)
         {
             
