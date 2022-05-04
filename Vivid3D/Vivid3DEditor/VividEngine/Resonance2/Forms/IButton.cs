@@ -6,19 +6,26 @@ using System.Threading.Tasks;
 
 namespace VividEngine.Resonance2.Forms
 {
+
+    public delegate void ButtonClicked(int button);
+
     public class IButton : IForm
     {
         bool drag = false;
+
+        public ButtonClicked Click = null;
+        public ButtonClicked DoubleClick = null;
+
         public override void RenderForm()
         {
 
-            DrawButton();
+            DrawButton(Text);
 
         }
 
         public override void OnEnter()
         {
-            Color = new OpenTK.Mathematics.Vector4(2,2,2, 1);
+            Color = new OpenTK.Mathematics.Vector4(1.2f,1.2f,1.2f, 1);
             //base.OnEnter();
 
         }
@@ -32,24 +39,21 @@ namespace VividEngine.Resonance2.Forms
 
         public override void OnMouseMove(int x, int y, int x_delta, int y_delta)
         {
-            if (!drag) return;
-            Random r = new Random(Environment.TickCount);
-            Console.WriteLine("Mx:" + x + " MY:" + y + " DX:" + x_delta + " DY:" + y_delta);
-            Position = new OpenTK.Mathematics.Vector2i(Position.X + x_delta, Position.Y + y_delta);
+           
         }
 
         public override void OnDoubleClick(int button)
         {
             //base.OnDoubleClick(button);
-            Position = new OpenTK.Mathematics.Vector2i(Position.X + 30, Position.Y);
+            DoubleClick?.Invoke(button);
 
 
-                }
+        }
 
         public override void OnMouseDown(int button)
         {
-            Color = new OpenTK.Mathematics.Vector4(2, 1, 1, 1);
-            base.OnMouseDown(button);
+            Color = new OpenTK.Mathematics.Vector4(1.3f, 1, 1, 1);
+            Click?.Invoke(button);
             drag = true;
         }
 

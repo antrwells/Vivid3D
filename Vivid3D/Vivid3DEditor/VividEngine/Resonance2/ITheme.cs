@@ -40,6 +40,12 @@ namespace VividEngine.Resonance2
             set;
         }
 
+        public Texture2D Line
+        {
+            get;
+            set;
+        }
+
         public Font.FontTTF SystemFont
         {
             get;

@@ -38,7 +38,7 @@ namespace VividEngine.Resonance2.Forms
 
         public override void Resized()
         {
-            Title.Set(0, 0, Size.X, TitleHeight);
+            Title.Set(0, 0, Size.X+3, TitleHeight);
             Content.Set(0, TitleHeight, Size.X, Size.Y - TitleHeight-1);
             //base.Resized();
         }

@@ -62,6 +62,12 @@ namespace VividEngine.Resonance2
             set;
         }
 
+        public IMainMenu MainMenu
+        {
+            get;
+            set;
+        }
+
         private Vector2 prev_mouse;
 
         public UserInterface()
@@ -71,12 +77,20 @@ namespace VividEngine.Resonance2
             Cursor = new Texture2D("Data/ui/cursor/normal.png", false);
             Draw = new BasicDraw2D();
             Root = new Forms.IGroup();
-            Root.Set(0, 0, App.AppInfo.Width, App.AppInfo.Height);
+            Root.Set(0, 25, App.AppInfo.Width, App.AppInfo.Height-25);
             ActiveInterface = this;
             prev_mouse = new Vector2(0, 0);
             FormPressed = new IForm[32];
             PrevClick = new long[32];
         }
+
+        public IMainMenu AddMainMenu()
+        {
+            MainMenu = new Forms.IMainMenu();
+            MainMenu.Set(0, 0, App.AppInfo.Width,25);
+            return MainMenu;
+        }
+        
 
         public IForm Add(IForm form)
         {
@@ -102,7 +116,10 @@ namespace VividEngine.Resonance2
             List<IForm> forms = new List<IForm>();
 
             AddForms(forms, Root);
-
+            if (MainMenu != null)
+            {
+                AddForms(forms, MainMenu);
+            }
             forms.Reverse();
 
             var form_over = GetFormOver(forms, (int)Input.AppInput.MousePosition.X, (int)Input.AppInput.MousePosition.Y);
@@ -182,7 +199,7 @@ namespace VividEngine.Resonance2
                 }
             }
 
-            Console.WriteLine("Clicks:" + clicks);
+       
 
             for (int i = 0; i < 16; i++)
             {
@@ -268,6 +285,11 @@ namespace VividEngine.Resonance2
         public void RenderUI()
         {
             Root.Render();
+            if (MainMenu != null)
+            {
+                MainMenu.Render();
+            }
+
             RenderCursor();
 
         }

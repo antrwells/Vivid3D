@@ -238,20 +238,94 @@ namespace VividEngine.Resonance2
         /// Drawing
         /// </summary>
 
-        public void DrawText(string text,int x,int y)
+        public int TextWidth(string text)
+        {
+            return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Width;
+        }
+
+        public int TextHeight(string text)
+        {
+            return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Height;
+        }
+
+        public void DrawText(string text, int x, int y, Vector4 color)
         {
 
             var img = UserInterface.ActiveInterface.Theme.SystemFont.GenString(text);
-            Draw(img, x, y, img.Width, img.Height, new Vector4(1, 1, 1, 1));
+            Draw(img, x, y, img.Width, img.Height,color);
             
 
         }
 
-        public void DrawButton()
+        public void DrawLine(int x,int y,int x2,int y2,Vector4 color)
+        {
+
+
+            if(x == x2)
+            {
+                Draw(UserInterface.ActiveInterface.Theme.Line, x, y, 1, y2 - y,color);
+                return;
+            }
+
+            if (y == y2)
+            {
+                Draw(UserInterface.ActiveInterface.Theme.Line, x, y, x2 - x, 1, color);
+                return;
+
+            }
+
+            float xd, yd;
+
+            xd = x2 - x;
+            yd = y2 - y;
+
+            float steps = 0;
+
+            if (Math.Abs(xd) > Math.Abs(yd))
+            {
+                steps = Math.Abs(xd);
+            }
+            else
+            {
+                steps = Math.Abs(yd);
+            }
+
+            float xi, yi;
+
+            xi = xd / steps;
+            yi = yd / steps;
+
+            float dx = x;
+            float dy = y;
+
+            for(int i = 0; i < steps; i++)
+            {
+
+                Draw(UserInterface.ActiveInterface.Theme.Line, (int)dx, (int)dy, 1, 1, color);
+
+                dx += xi;
+                dy += yi;
+
+            }
+
+        }
+
+        public void DrawButton(string text)
         {
             Draw(UserInterface.ActiveInterface.Theme.Button);
+            var txt = UserInterface.ActiveInterface.Theme.SystemFont.GenString(text);
+            Draw(txt, RenderPosition.X + Size.X / 2 - (txt.Width / 2), RenderPosition.Y + Size.Y / 2 - (txt.Height / 2),txt.Width,txt.Height, new Vector4(1, 1, 1, 1));
+
         }
-        
+        public void DrawFrame(Vector4 color)
+        {
+            Draw(UserInterface.ActiveInterface.Theme.Frame, color);
+        }
+        public void DrawFrame(int x,int y,int w,int h,Vector4 color)
+        {
+
+            Draw(UserInterface.ActiveInterface.Theme.Frame,x, y, w, h, color);
+        }
         public void DrawFrame()
         {
             Draw(UserInterface.ActiveInterface.Theme.Frame);
@@ -266,6 +340,18 @@ namespace VividEngine.Resonance2
         {
             var render_pos = RenderPosition;
             UserInterface.Draw.Rect(render_pos.X, render_pos.Y, Size.X, Size.Y,image, Color);
+        }
+
+        public void Draw(Texture2D image,Vector4 color)
+        {
+            var render_pos = RenderPosition;
+            UserInterface.Draw.Rect(render_pos.X, render_pos.Y, Size.X, Size.Y, image, color);
+        }
+
+        public void Draw2(Texture2D image,int x,int y,int w,int h,Vector4 color)
+        {
+            var render_pos = RenderPosition;
+            UserInterface.Draw.Rect(x,y,w,h, image, color);
         }
 
         public void Draw(Texture2D image, int x,int y,int w,int h,Vector4 col)

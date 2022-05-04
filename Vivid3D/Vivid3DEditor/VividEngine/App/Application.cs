@@ -146,7 +146,7 @@ namespace VividEngine.App
             frame++;
             
 
-            GL.ClearColor(1, 0, 0, 1);
+            GL.ClearColor(0, 0, 0, 1);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 

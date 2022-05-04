@@ -29,10 +29,54 @@ namespace Vivid3DEditor
         {
             UI = new UserInterface();
 
-            var frame1 = new IFrame().Set(20, 20, 300, 500);
-            var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1");
-            var win = new IWindow().Set(20, 20, 300, 500).SetText("Test Window");
+            var menu = UI.AddMainMenu() as IMainMenu;
 
+            var file = menu.AddItem("File");
+            var edit = menu.AddItem("Edit");
+            var help = menu.AddItem("Help");
+            
+            var load_map  = file.AddItem("Load Map");
+
+            var lm_2 = load_map.AddItem("Load original.");
+            load_map.AddItem("Load copy.");
+            load_map.AddItem("Load other.");
+
+            var save_map = file.AddItem("Save Map");
+
+            lm_2.CLick = (item) =>
+            {
+
+                Environment.Exit(1);
+
+            };
+
+            file.AddItem("--------");
+            file.AddItem("Exit App");
+
+            load_map.CLick = (button) =>
+            {
+                //Environment.Exit(1);
+
+            };
+
+
+            var frame1 = new IFrame().Set(20, 20, 300, 500);
+            var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1") as IButton;
+            var win = new IWindow().Set(20, 20, 300, 500).SetText("Test Window") as IWindow;
+
+            but1.Click = (button) =>
+            {
+                Console.WriteLine("Button Clicked!");
+            };
+
+            but1.DoubleClick = (button) =>
+            {
+
+                Console.WriteLine("Double clicked!");
+
+            };
+
+            win.Content.Add(but1);
             UI.Add(win);
             
             base.InitApp();

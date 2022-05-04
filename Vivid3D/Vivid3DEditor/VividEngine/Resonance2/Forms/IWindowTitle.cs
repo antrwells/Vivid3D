@@ -21,7 +21,7 @@ namespace VividEngine.Resonance2.Forms
                 Color = new OpenTK.Mathematics.Vector4(0.5f, 0.5f, 0.5f, 1);
             }
             DrawTitle();
-            DrawText(Text, RenderPosition.X+6, RenderPosition.Y+5);
+            DrawText(Text, RenderPosition.X+6, RenderPosition.Y+5,new OpenTK.Mathematics.Vector4(1,1,1,1));
         }
 
 
