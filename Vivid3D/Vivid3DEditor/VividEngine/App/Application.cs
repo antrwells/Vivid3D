@@ -71,9 +71,11 @@ namespace VividEngine.App
             GL.Viewport(0, 0, Size.X, Size.Y);
             Console.WriteLine("Setup OpenGL. Resolution X:" + Size.X + " Resolution Y:" + Size.Y);
             Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(0, 0);
+            Input.AppInput.MouseButton = new bool[32];
             InitApp();
 
             CursorVisible = false;
+            
 
             //Texture2D tex = new Texture2D("data/test1.jpg", false);
 
@@ -85,6 +87,18 @@ namespace VividEngine.App
         {
             //base.OnMouseMove(e);
             Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(e.X, e.Y);
+
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            //base.OnMouseDown(e);
+            Input.AppInput.MouseButton[(int)e.Button] = true;
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            Input.AppInput.MouseButton[(int)e.Button] = false;
 
         }
 

@@ -159,6 +159,45 @@ namespace VividEngine.Resonance2
             }
         }
 
+        public bool InBounds(int x,int y)
+        {
+            if (x >= RenderPosition.X && x <= RenderPosition.X + Size.X && y >= RenderPosition.Y && y <= RenderPosition.Y + Size.Y)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public virtual void OnEnter()
+        {
+
+        }
+
+        public virtual void OnLeave()
+        {
+
+        }
+
+        public virtual void OnMouseMove(int x,int y,int x_delta,int y_delta)
+        {
+            
+        }
+
+        public virtual void OnMouseDown(int button)
+        {
+            
+        }
+
+        public virtual void OnMouseUp(int button)
+        {
+            
+        }
+
+        /// <summary>
+        /// Drawing
+        /// </summary>
+
         public void DrawButton()
         {
             Draw(UserInterface.ActiveInterface.Theme.Button);

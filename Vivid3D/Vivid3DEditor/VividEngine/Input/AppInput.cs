@@ -16,6 +16,12 @@ namespace VividEngine.Input
             set;
         }
 
+        public static bool[] MouseButton
+        {
+            get;
+            set;
+        }
+
         
 
     }
