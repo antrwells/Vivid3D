@@ -69,6 +69,82 @@ namespace VividEngine.Texture
             set;
         }
 
+        public long DestroyAt
+        {
+            get;
+            set;
+        }
+
+        public bool Destroy
+        {
+            get;
+            set;
+        }
+
+        public long WaitDestroy
+        {
+            get;
+            set;
+        }
+
+        public bool Destroyed
+        {
+            get;
+            set;
+        }
+
+        public bool DestroyNow
+        {
+            get;
+            set;
+        }
+
+        public static List<Texture> DestroyList = new List<Texture>();
+
+        public void DestoryWhen(long ms)
+        {
+            DestroyAt = Environment.TickCount64 + ms;
+            DestroyList.Add(this);
+            WaitDestroy = ms;
+            Destroy = true;
+            
+        }
+        
+        public static void _DestroyThread()
+        {
+
+            //while (true)
+            //{
+
+                long time = Environment.TickCount64;
+                foreach(var tex in DestroyList.ToArray())
+                {
+                    if (time > tex.DestroyAt)
+                    {
+                        //tex.DestroyTexture();
+                        tex.DestroyNow = true;
+                        tex.DestroyTexture();
+                        DestroyList.Remove(tex);
+                      //  Console.WriteLine("Destroyed texture!!.");
+
+                    }
+                    else
+                    {
+                   //     Console.WriteLine("Time:" + time + " When:" + tex.DestroyAt);
+                    }
+                }
+
+                //Console.WriteLine("DCount:" + DestroyList.Count);
+              //  System.Threading.Thread.Sleep(10);
+            //}
+        }
+
+        public static void StartTextureSubSystem()
+        {
+     
+            
+        }
+
         public Texture()
         {
             Loading = false;
@@ -80,9 +156,18 @@ namespace VividEngine.Texture
             set;
         }
 
+        public virtual void DestroyTexture()
+        {
+            
+        }
+
         public virtual void Bind(TextureUnit unit)
         { 
-
+            if(Destroy)
+            {
+                DestroyAt = Environment.TickCount64 + WaitDestroy;
+            }
+            
             
            
 

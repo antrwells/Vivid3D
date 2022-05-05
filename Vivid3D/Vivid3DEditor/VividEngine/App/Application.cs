@@ -73,6 +73,7 @@ namespace VividEngine.App
             Input.AppInput.MousePosition = new OpenTK.Mathematics.Vector2(0, 0);
             Input.AppInput.MouseButton = new bool[32];
             Font.FontTTF.Init();
+            Texture.Texture.StartTextureSubSystem();
             InitApp();
 
             CursorVisible = false;
@@ -139,6 +140,7 @@ namespace VividEngine.App
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             UpdateApp();
+            Texture.Texture._DestroyThread();
         }
 
 

@@ -10,6 +10,11 @@ namespace VividEngine.Resonance2.Forms
     public class ITextEdit : IForm
     {
 
+        public bool NumericOnly
+        {
+            get;
+            set;
+        }
         private bool claret_on = false;
         private int next_claret = 0;
         private int claret_x;
@@ -23,6 +28,10 @@ namespace VividEngine.Resonance2.Forms
         {
             base.RenderForm();
             DrawFrame();
+            if (edit_x < start_x)
+            {
+                start_x = edit_x;
+            }
             //   if (!Active)
             //  {
             if (edit_text != "" && edit_text != " ")
@@ -30,7 +39,7 @@ namespace VividEngine.Resonance2.Forms
                 if (edit_x > 0)
                 {
                     int ex = char_x[edit_x - 1] - char_x[start_x];
-                    Console.WriteLine("EX:" + ex + "SX:" + start_x);
+                   // Console.WriteLine("EX:" + ex + "SX:" + start_x);
 
                     if (ex > Size.X - 25)
                     {
@@ -60,7 +69,7 @@ namespace VividEngine.Resonance2.Forms
 
 
                     }
-                    Console.WriteLine("P:" + p + " PT:" + pt);
+                 //   Console.WriteLine("P:" + p + " PT:" + pt);
                     DrawText(pt, RenderPosition.X + 5, RenderPosition.Y + 3 + Size.Y / 2 - TextHeight(p) / 2, new OpenTK.Mathematics.Vector4(0.8f, 0.8f, 0.8f, 1.0f));
                 }
                 else
@@ -78,7 +87,7 @@ namespace VividEngine.Resonance2.Forms
                                 break;
                             }
                         }
-                        Console.WriteLine("PT:" + pt);
+                        //Console.WriteLine("PT:" + pt);
                     }
                     else
                     {
@@ -153,7 +162,7 @@ namespace VividEngine.Resonance2.Forms
         public override void OnKey(Keys key)
         {
             //base.OnKey(key);
-            Console.WriteLine(key.ToString());
+            //Console.WriteLine(key.ToString());
             AddKey(key);
 
            
@@ -198,7 +207,7 @@ namespace VividEngine.Resonance2.Forms
                         {
                             start_x = 0;
                         }
-                        Console.WriteLine("EX:" + edit_x + " SX:" + start_x);
+                        //Console.WriteLine("EX:" + edit_x + " SX:" + start_x);
                     }
                     else
                     {
@@ -440,6 +449,18 @@ namespace VividEngine.Resonance2.Forms
                 default:
                     add_text = key.ToString();
                     break;
+            }
+
+            if (NumericOnly)
+            {
+                if("0123456789.".Contains(add_text))
+                {
+
+                }
+                else
+                {
+                    return;
+                }
             }
 
             if (!shift)

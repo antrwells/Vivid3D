@@ -64,7 +64,15 @@ namespace VividEngine.Font
         {
             if (Cache.ContainsKey(text))
             {
-                return Cache[text];
+                if (Cache[text].Destroyed == false)
+                {
+                  //  Cache[text].DestoryWhen(2000);
+                    return Cache[text];
+                }
+                else
+                {
+                    Cache.Remove(text);
+                }
             }
 
             var measuredChars = new List<DebugChar>();
@@ -375,7 +383,10 @@ namespace VividEngine.Font
             int loc = 0;
 
             Texture.Texture2D new_Tex = new Texture.Texture2D(pmp);
+         
+
             Cache.Add(text, new_Tex);
+            new_Tex.DestoryWhen(1500);
 
             return new_Tex;
         }

@@ -11,13 +11,38 @@ namespace VividEngine.Resonance2.Forms
 
         private bool resizeLeft, resizeRight, resizeBottom, resizeTop, resizeCorner;
         private bool resizing = false;
+
+        public VerticalScroller VerticalScroll
+        {
+            get;
+            set;
+        }
+        
         
 
-        
         public IWindowContent()
         {
             resizeLeft = resizeRight = resizeBottom = resizeTop = resizeCorner = false;
             Color = new OpenTK.Mathematics.Vector4(0.6f, 0.6f, 0.6f, 1.0f);
+            ChildScroll = true;
+            VerticalScroll = new VerticalScroller();
+            VerticalScroll.Scroll = false;
+            Add(VerticalScroll);
+
+        }
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+            int max_y = ContentSize.Y;
+
+            VerticalScroll.MaxValue = max_y;
+            
+        }
+
+        public override void Resized()
+        {
+            VerticalScroll.Set(Size.X - 10,0, 10, Size.Y);
         }
 
         public override void OnMouseMove(int x, int y, int x_delta, int y_delta)
@@ -148,6 +173,8 @@ namespace VividEngine.Resonance2.Forms
             DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X, RenderPosition.Y + Size.Y,Color);
             DrawLine(RenderPosition.X, RenderPosition.Y+Size.Y, RenderPosition.X+Size.X, RenderPosition.Y + Size.Y,Color);
             DrawLine(RenderPosition.X+Size.X, RenderPosition.Y, RenderPosition.X+Size.X, RenderPosition.Y + Size.Y,Color);
+
+          //  DrawFrame(RenderPosition.X, RenderPosition.Y, ContentSize.X, ContentSize.Y, new OpenTK.Mathematics.Vector4(1, 1, 1, 0.7f));
 
         }
 

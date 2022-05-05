@@ -100,6 +100,20 @@ namespace VividEngine.Texture
             
 
         }
+
+        public override void DestroyTexture()
+        {
+            //base.DestroyTexture();
+            if (DestroyNow)
+            {
+                GL.DeleteTexture(Handle);
+                Raw = null;
+                DestroyNow = false;
+                Destroyed = true;
+                //Console.WriteLine("Tex destroyed.");
+            }
+        }
+
         public Texture2D(string path,bool force_alpha = false)
         {
 
@@ -166,6 +180,12 @@ namespace VividEngine.Texture
                 DataBound = true;
                 BindData();               
 
+            }
+            
+        
+            if (Destroy)
+            {
+                DestroyAt = Environment.TickCount64 + WaitDestroy;
             }
 
             uint t_unit = (uint)unit;

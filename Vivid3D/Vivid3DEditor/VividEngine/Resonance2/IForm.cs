@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using VividEngine.Texture;
+using OpenTK.Graphics.OpenGL;
 
 
 namespace VividEngine.Resonance2
@@ -95,7 +96,62 @@ namespace VividEngine.Resonance2
         }
         private string _Text = "";
 
+        public Vector2i ScrollPosition
+        {
+            get;
+            set;
+        }
+
+        public bool Scroll
+        {
+            get;
+            set;
+        }
+
+        public Vector2i ContentSize
+        {
+
+            get
+            {
+
+                int bx = 0;
+                int by = 0;
+
+                foreach(var form in Child)
+                {
+                    var x = form.Position.X + form.Size.X;
+                    var y = form.Position.Y + form.Size.Y;
+                    if (x > bx) bx = x;
+                    if (y > by) by = y;
+                }
+
+                return new Vector2i(bx, by);
+
+            }
+            
+        }
+
         public Vector2i RenderPosition
+        {
+            get
+            {
+                Vector2i pos = new Vector2i(0, 0);
+                if (Root != null)
+                {
+                    pos = Root.RenderPosition;
+                    if (Root.ChildScroll && Scroll)
+                    {
+                        pos.X -= Root.ScrollPosition.X;
+                        pos.Y -= Root.ScrollPosition.Y;
+                    }
+                
+                }
+                
+                return pos + Position;
+            }
+        }
+
+        public Vector2i RenderPositionNoScroll
         {
             get
             {
@@ -108,11 +164,20 @@ namespace VividEngine.Resonance2
             }
         }
 
+        public bool ChildScroll
+        {
+            get;
+            set;
+        }
+       
+
         public IForm()
         {
 
             Root = null;
             Child = new List<IForm>();
+            Scroll = true;
+            ChildScroll = false;
            // Set(0, 0, 0, 0);
             SetText("");
             SetColor(1, 1, 1, 1);
@@ -177,9 +242,20 @@ namespace VividEngine.Resonance2
 
         public void RenderChildren()
         {
+            //GL.Viewport(RenderPosition.X, RenderPosition.Y, Size.X, Size.Y);
+            //GL.Viewport(0, RenderPosition.Y-Size.Y, App.AppInfo.Width, Size.Y);
+            //GL.Enable(EnableCap.ScissorTest);
+            //GL.Scissor(0,RenderPosition.Y, App.AppInfo.Width,Size.Y);
+            
+
             foreach (var form in Child)
             {
-                form.Render();
+                //if (form.Position.X > 0 && form.RenderPosition.Y)
+               // {
+                //    if(form.render)
+               
+                    form.Render();
+                //}
             }
         }
 
@@ -298,6 +374,7 @@ namespace VividEngine.Resonance2
 
         public int TextHeight(string text)
         {
+            if (text == "") return 20;
             return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Height;
         }
 
@@ -308,7 +385,8 @@ namespace VividEngine.Resonance2
 
         public void DrawText(string text, int x, int y, Vector4 color)
         {
-
+            if (text == null) return;
+            if (text == "") return;
             var img = UserInterface.ActiveInterface.Theme.SystemFont.GenString(text);
             Draw(img, x, y, img.Width, img.Height,color);
             
