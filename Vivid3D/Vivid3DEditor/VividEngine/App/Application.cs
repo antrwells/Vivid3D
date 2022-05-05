@@ -84,6 +84,20 @@ namespace VividEngine.App
 
         }
 
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            Input.AppInput.KeyDown(e.Key);
+
+        }
+
+        protected override void OnKeyUp(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            Input.AppInput.KeyUp(e.Key);
+            
+        }
+
         protected override void OnMouseMove(MouseMoveEventArgs e)
         {
             //base.OnMouseMove(e);

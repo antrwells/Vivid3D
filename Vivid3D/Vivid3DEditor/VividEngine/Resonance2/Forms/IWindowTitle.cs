@@ -11,14 +11,15 @@ namespace VividEngine.Resonance2.Forms
 
         public override void RenderForm()
         {
+            Size = new OpenTK.Mathematics.Vector2i(192, Size.Y);
             //base.RenderForm();
             if (Over)
             {
-                Color = new OpenTK.Mathematics.Vector4(1, 1, 1, 1);
+                Color = new OpenTK.Mathematics.Vector4(1.2f, 1.2f, 1.2f, 1);
             }
             else
             {
-                Color = new OpenTK.Mathematics.Vector4(0.5f, 0.5f, 0.5f, 1);
+                Color = new OpenTK.Mathematics.Vector4(1f, 1f, 1f, 1);
             }
             DrawTitle();
             DrawText(Text, RenderPosition.X+6, RenderPosition.Y+5,new OpenTK.Mathematics.Vector4(1,1,1,1));

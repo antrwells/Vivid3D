@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace VividEngine.Input
 {
@@ -22,7 +23,18 @@ namespace VividEngine.Input
             set;
         }
 
-        
+        public static event Action<Keys> OnKeyDown;
+        public static event Action<Keys> OnKeyUp;
+
+        public static void KeyDown(Keys key)
+        {
+            OnKeyDown(key);
+        }
+
+        public static void KeyUp(Keys key)
+        {
+            OnKeyUp(key);
+        }
 
     }
 }

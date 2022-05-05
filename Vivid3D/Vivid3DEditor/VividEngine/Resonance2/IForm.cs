@@ -204,6 +204,26 @@ namespace VividEngine.Resonance2
             
         }
 
+        public virtual void OnUpdate()
+        {
+            
+        }
+
+        public virtual void OnKeyDown(OpenTK.Windowing.GraphicsLibraryFramework.Keys key)
+        {
+            
+        }
+
+        public virtual void OnKeyUp(OpenTK.Windowing.GraphicsLibraryFramework.Keys key)
+        {
+
+        }
+
+        public virtual void OnKey(OpenTK.Windowing.GraphicsLibraryFramework.Keys key)
+        {
+
+        }
+
         public virtual void OnEnter()
         {
 
@@ -234,18 +254,56 @@ namespace VividEngine.Resonance2
             
         }
 
+        public virtual void OnActivate()
+        {
+
+        }
+
+        public virtual void OnDeactivate()
+        {
+
+        }
         /// <summary>
         /// Drawing
         /// </summary>
+        /// 
+
+        public void DrawOutline(Vector4 color)
+        {
+            
+            DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X + Size.X, RenderPosition.Y, color);
+            DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X, RenderPosition.Y + Size.Y, color);
+            DrawLine(RenderPosition.X, RenderPosition.Y + Size.Y, RenderPosition.X + Size.X, RenderPosition.Y + Size.Y, color);
+            DrawLine(RenderPosition.X + Size.X, RenderPosition.Y, RenderPosition.X + Size.X, RenderPosition.Y + Size.Y, color);
+
+        }
 
         public int TextWidth(string text)
         {
-            return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Width;
+            if (text == "" || text == " ")
+            {
+                return 0;
+            }
+            try
+            {
+                return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Width;
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+
+
         }
 
         public int TextHeight(string text)
         {
             return UserInterface.ActiveInterface.Theme.SystemFont.GenString(text).Height;
+        }
+
+        public bool Within(int x,int y,int wx,int wy,int ww,int wh)
+        {
+            return (x >= wx && x <= wx + ww && y >= wy && y <= wy + wh);
         }
 
         public void DrawText(string text, int x, int y, Vector4 color)

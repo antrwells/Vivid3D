@@ -68,12 +68,16 @@ namespace VividEngine.Resonance2
             set;
         }
 
+        bool key_in = false;
+        int next_key = 0;
+        OpenTK.Windowing.GraphicsLibraryFramework.Keys key;
+
         private Vector2 prev_mouse;
 
         public UserInterface()
         {
 
-            Theme = new Themes.ThemeDark();
+            Theme = new Themes.ThemeDarkFlat();
             Cursor = new Texture2D("Data/ui/cursor/normal.png", false);
             Draw = new BasicDraw2D();
             Root = new Forms.IGroup();
@@ -82,6 +86,49 @@ namespace VividEngine.Resonance2
             prev_mouse = new Vector2(0, 0);
             FormPressed = new IForm[32];
             PrevClick = new long[32];
+            Input.AppInput.OnKeyDown += AppInput_OnKeyDown;
+            Input.AppInput.OnKeyUp += AppInput_OnKeyUp;
+        }
+
+        private void AppInput_OnKeyUp(OpenTK.Windowing.GraphicsLibraryFramework.Keys obj)
+        {
+            //throw new NotImplementedException();
+            key_in = false;
+            if (FormActive != null)
+            {
+                FormActive.OnKeyUp(obj);
+            }
+        }
+
+        private void AppInput_OnKeyDown(OpenTK.Windowing.GraphicsLibraryFramework.Keys obj)
+        {
+            //throw new NotImplementedException();
+            //Console.WriteLine("Key:" + obj.ToString());
+            Console.WriteLine(obj.ToString());
+            if (FormActive != null)
+            {
+                FormActive.OnKeyDown(obj);
+
+            }
+
+            if (FormActive != null)
+            {
+                switch (obj)
+                {
+                    case OpenTK.Windowing.GraphicsLibraryFramework.Keys.LeftShift:
+                    case OpenTK.Windowing.GraphicsLibraryFramework.Keys.RightShift:
+                        return;
+                        break;
+                }
+
+                key_in = true;
+                next_key = Environment.TickCount + 400;
+                key = obj;
+                //FormActive
+                FormActive.OnKey(obj);
+                
+            }
+
         }
 
         public IMainMenu AddMainMenu()
@@ -111,6 +158,20 @@ namespace VividEngine.Resonance2
         bool clicked = false;
         public void UpdateUI()
         {
+
+            if (key_in)
+            {
+
+                if (FormActive != null)
+                {
+                    if (Environment.TickCount > next_key)
+                    {
+                        FormActive.OnKey(key);
+                        next_key = next_key + 150;
+                    }
+                }
+            }
+
             Vector2 cur_mouse = Input.AppInput.MousePosition;
 
             List<IForm> forms = new List<IForm>();
@@ -121,6 +182,12 @@ namespace VividEngine.Resonance2
                 AddForms(forms, MainMenu);
             }
             forms.Reverse();
+
+            foreach(var form in forms)
+            {
+                form.OnUpdate();
+            }
+
 
             var form_over = GetFormOver(forms, (int)Input.AppInput.MousePosition.X, (int)Input.AppInput.MousePosition.Y);
             
@@ -139,6 +206,17 @@ namespace VividEngine.Resonance2
                     if (FormPressed[0] != FormOver)
                     {
                         FormOver.OnLeave();
+                    }
+                }
+                if(FormOver!=form_over && FormOver!=null)
+                {
+                    if (FormOver == FormPressed[0])
+                    {
+                        if (Input.AppInput.MouseButton[0] == false)
+                        {
+                            FormOver.OnMouseUp(0);
+                            FormPressed[0] = null;
+                        }
                     }
                 }
                 FormOver = form_over;
@@ -199,7 +277,8 @@ namespace VividEngine.Resonance2
                 }
             }
 
-       
+              
+            
 
             for (int i = 0; i < 16; i++)
             {
@@ -213,7 +292,15 @@ namespace VividEngine.Resonance2
                     {
                         form_over.OnMouseDown(i);
                         FormPressed[i] = form_over;
+                        if(FormActive!=null && FormActive != form_over)
+                        {
+                            FormActive.OnDeactivate();
+                            FormActive.Active = false;
+                        }
                         FormActive = form_over;
+                        form_over.OnActivate();
+                        form_over.Active = true;
+                        
                     }
                     else
                     {

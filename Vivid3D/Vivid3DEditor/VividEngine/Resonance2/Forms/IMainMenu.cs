@@ -120,7 +120,7 @@ namespace VividEngine.Resonance2.Forms
         {
             //base.RenderForm();
 
-            DrawFrame();
+            DrawFrame(new Vector4(0.4f, 0.4f, 0.4f, 1.0f));
             DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X + Size.X, RenderPosition.Y,new Vector4(0.3f,0.3f,0.3f,1.0f));
             DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X , RenderPosition.Y+Size.Y, new Vector4(0.3f, 0.3f, 0.3f, 1.0f));
             DrawLine(RenderPosition.X+Size.X, RenderPosition.Y, RenderPosition.X + Size.X, RenderPosition.Y+Size.Y, new Vector4(0.3f, 0.3f, 0.3f, 1.0f));
@@ -133,9 +133,9 @@ namespace VividEngine.Resonance2.Forms
             {
                 if (item == OverItem)
                 {
-                    DrawFrame(dx,dy-3,Size.X-4,25,new Vector4(1,1.4f,1.4f,1.0f));
+                    DrawFrame(dx,dy-3,Size.X-4,25,new Vector4(0.2f,0.2f,0.2f,1.0f));
                 }
-                DrawText(item.Text, dx+3, dy, new Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+                DrawText(item.Text, dx+3, dy, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
                 dx = dx;
                 dy = dy + 25;
 
@@ -159,16 +159,16 @@ namespace VividEngine.Resonance2.Forms
 
         public override void RenderForm()
         {
-            DrawFrame();
+            DrawFrame(new Vector4(0.4f, 0.4f, 0.4f, 1.0f));
             int dx = RenderPosition.X + 5;
             int dy = RenderPosition.Y + 6;
             foreach(var item in Items)
             {
                 if (OverItem == item)
                 {
-                    DrawFrame(dx-5,dy-6,TextWidth(item.Text)+25+3,Size.Y, new Vector4(0.4f, 0.4f, 0.4f, 1));
+                    DrawFrame(dx-5,dy-6,TextWidth(item.Text)+25+3,Size.Y, new Vector4(0.2f, 0.2f, 0.2f, 1));
                 }
-                DrawText(item.Text, dx, dy, new Vector4(0, 0, 0, 1));
+                DrawText(item.Text, dx+3, dy+1, new Vector4(0.7f,0.7f, 0.7f, 1));
                 item.DX = dx;
                 dx += TextWidth(item.Text) + 25;
             }
