@@ -119,8 +119,8 @@ namespace VividEngine.Resonance2
 
                 foreach(var form in Child)
                 {
-                    var x = form.Position.X + form.Size.X;
-                    var y = form.Position.Y + form.Size.Y;
+                    var x = form.Position.X;// + form.Size.X;
+                    var y = form.Position.Y;// + form.Size.Y;
                     if (x > bx) bx = x;
                     if (y > by) by = y;
                 }

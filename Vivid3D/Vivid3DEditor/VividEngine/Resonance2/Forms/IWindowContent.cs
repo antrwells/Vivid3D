@@ -37,6 +37,11 @@ namespace VividEngine.Resonance2.Forms
             int max_y = ContentSize.Y;
 
             VerticalScroll.MaxValue = max_y;
+
+            ScrollPosition = new OpenTK.Mathematics.Vector2i(0,(int)(VerticalScroll.Value * max_y));
+
+            Console.Write("AV:" + VerticalScroll.Value);
+
             
         }
 

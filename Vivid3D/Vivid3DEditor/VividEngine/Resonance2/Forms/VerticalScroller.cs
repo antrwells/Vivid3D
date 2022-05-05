@@ -21,6 +21,20 @@ namespace VividEngine.Resonance2.Forms
             set;
         }
 
+        public float Value
+        {
+            get
+            {
+                return av2;
+            }
+        }
+        float av2;
+
+
+        public VerticalScroller()
+        {
+            Scroll = false;
+        }
         public override void OnMouseDown(int button)
         {
             base.OnMouseDown(button);
@@ -36,10 +50,16 @@ namespace VividEngine.Resonance2.Forms
         public override void OnMouseMove(int x, int y, int x_delta, int y_delta)
         {
             base.OnMouseMove(x, y, x_delta, y_delta);
-            CurrentValue += y_delta;
-            if (CurrentValue < 0) CurrentValue = 0;
-            if (CurrentValue > MaxValue) CurrentValue = MaxValue;
-            Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(Root.ScrollPosition.X, CurrentValue);
+            if (Drag)
+            {
+                CurrentValue += y_delta;
+                if (CurrentValue < 0) CurrentValue = 0;
+                if (CurrentValue > Size.Y) CurrentValue = Size.Y;
+
+            }
+          //  Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(0, (int)av);
+            
+            // Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(Root.ScrollPosition.X, CurrentValue);
         }
 
         public override void RenderForm()
@@ -47,13 +67,40 @@ namespace VividEngine.Resonance2.Forms
 
             float yi = (float)(CurrentValue) / (float)(MaxValue);
 
+            float hd = Size.Y / (float)(MaxValue);
 
-            int draw_y =(int)( (float)(Size.Y) * yi); ;
-            int draw_h = 32;
+            float av = CurrentValue * hd;
+
+            float ov = (float)Size.Y / (float)(MaxValue);
+
+            float dh = Size.Y * ov;
+
+            float nm = Size.Y - dh;
+
+            float ay = CurrentValue;
+
+            if (CurrentValue + dh > Size.Y) {
+                CurrentValue = Size.Y - (int)dh;
+            }
+
+
+            float max_V = Size.Y - (dh);
+            //float yd = Size.Y - (CurrentValue + dh);
+          av2 = CurrentValue / max_V;
+            
+
+          //  Console.WriteLine("AV:" + av2);
+
+            //yd = yd / MaxValue;
+
+
+            //int draw_y = (int)Size.Y 
+            //int draw_h = (int)((float)Size.Y * ov);
+
             //base.RenderForm();
             DrawFrame();
             DrawOutline(new OpenTK.Mathematics.Vector4(1, 1, 1, 1));
-            DrawFrame(RenderPosition.X+1, RenderPosition.Y + draw_y+1, Size.X-1, draw_h, new OpenTK.Mathematics.Vector4(1, 3, 3, 1));
+            DrawFrame(RenderPosition.X+1, RenderPosition.Y+CurrentValue , Size.X-1, (int)dh, new OpenTK.Mathematics.Vector4(1, 3, 3, 1));
 ;        }
 
     }
