@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 using System.Threading;
 
 
-namespace VividEngine.Texture
+namespace Q.Texture
 {
     public enum TextureUnit
     {

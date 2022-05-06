@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VividEngine.App;
-using VividEngine.Shader;
-using VividEngine.Texture;
-using VividEngine.Shader._2D;
+using Q.App;
+using Q.Shader;
+using Q.Texture;
+using Q.Shader._2D;
 using OpenTK.Windowing.Desktop;
-using VividEngine.Draw.Simple;
-using VividEngine.Resonance2;
-using VividEngine.Resonance2.Forms;
+using Q.Draw.Simple;
+using Q.Quantum;
+using Q.Quantum.Forms;
     
 namespace Vivid3DEditor
 {
@@ -62,14 +62,18 @@ namespace Vivid3DEditor
 
             var frame1 = new IFrame().Set(20, 20, 300, 500);
             var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1") as IButton;
-            var win = new IWindow().Set(20, 20, 300, 300).SetText("Test Window") as IWindow;
+            var win = new IWindow().Set(20, 20, 500, 600).SetText("Test Window") as IWindow;
             var img = new IImage().Set(0, 0, 2000,2000) as IImage;
             img.SetImage(new Texture2D("data/test1.jpg"));
-            var text = new ITextEdit().Set(350, 800, 200, 35).SetText("Test Text") as ITextEdit;
+            var text = new ITextEdit().Set(350, 2800, 200, 35).SetText("Test Text") as ITextEdit;
             text.NumericOnly = true;
-           // win.Content.ScrollPosition = new OpenTK.Mathematics.Vector2i(50, 0);
-            
+            // win.Content.ScrollPosition = new OpenTK.Mathematics.Vector2i(50, 0);
+            IVector3 tv = new IVector3();
+            // 
+            win.Content.Add(tv);
+            tv.OnValueChanged += Tv_OnValueChanged;
 
+            tv.Set(30, 50, 500, 35);
             but1.Click = (button) =>
             {
                 Console.WriteLine("Button Clicked!");
@@ -82,9 +86,9 @@ namespace Vivid3DEditor
 
             };
 
-            win.Content.Add(img);
+           // win.Content.Add(img);
             //win.Content.Add(but1);
-            //win.Content.Add(text);
+           // win.Content.Add(text);
             UI.Add(win);
             
             base.InitApp();
@@ -94,6 +98,12 @@ namespace Vivid3DEditor
             //draw1 = new BasicDraw2D();
 
 
+        }
+
+        private void Tv_OnValueChanged(OpenTK.Mathematics.Vector3 value)
+        {
+            //    throw new NotImplementedException();
+            Console.WriteLine("Vec:" + value.ToString());
         }
 
         public override void UpdateApp()

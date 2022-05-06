@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
-namespace VividEngine.Texture
+namespace Q.Texture
 {
     public class Texture2D : Texture
     {
@@ -87,7 +87,7 @@ namespace VividEngine.Texture
             Loading = false;
         }
 
-        public Texture2D(VividEngine.Pixels.PixelMap map)
+        public Texture2D(Q.Pixels.PixelMap map)
         {
 
             Width = map.Width;

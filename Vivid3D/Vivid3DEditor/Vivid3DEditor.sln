@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vivid3DEditor", "Vivid3DEditor\Vivid3DEditor.csproj", "{A36D1F5C-59E6-4F05-94B8-6BFFD698CBA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VividEngine", "VividEngine\VividEngine.csproj", "{4ABF4D14-0E42-4030-AEFB-6FB8E996C632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Q", "VividEngine\Q.csproj", "{4ABF4D14-0E42-4030-AEFB-6FB8E996C632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

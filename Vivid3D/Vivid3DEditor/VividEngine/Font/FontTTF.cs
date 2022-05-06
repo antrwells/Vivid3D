@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using SharpFont.TrueType;
 
-namespace VividEngine.Font
+namespace Q.Font
 {
     public class FontTTF
     {

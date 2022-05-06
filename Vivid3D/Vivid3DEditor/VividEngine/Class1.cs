@@ -1,4 +1,4 @@
-﻿namespace VividEngine
+﻿namespace Q
 {
     public class Class1
     {

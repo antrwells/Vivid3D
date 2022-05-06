@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
 using OpenTK.Mathematics;
 
-namespace VividEngine.Shader
+namespace Q.Shader
 {
     public class Effect
     {

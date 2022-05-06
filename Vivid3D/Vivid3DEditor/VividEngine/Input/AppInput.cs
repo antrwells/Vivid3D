@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace VividEngine.Input
+namespace Q.Input
 {
     public class AppInput
     {

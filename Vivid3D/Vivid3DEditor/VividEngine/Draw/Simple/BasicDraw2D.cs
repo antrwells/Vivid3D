@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
 using OpenTK.Mathematics;
-using VividEngine.Shader._2D;
-namespace VividEngine.Draw.Simple
+using Q.Shader._2D;
+namespace Q.Draw.Simple
 {
     public class BasicDraw2D
     {
@@ -85,7 +85,7 @@ namespace VividEngine.Draw.Simple
             data[23] = 0;
         }
 
-        public void Rect(int x, int y, int w, int h, VividEngine.Texture.Texture2D tex, Vector4 col)
+        public void Rect(int x, int y, int w, int h, Q.Texture.Texture2D tex, Vector4 col)
         {
             //tex.Bind(Texture.TextureUnit.Unit0);
 

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VividEngine\VividEngine.csproj" />
+    <ProjectReference Include="..\VividEngine\Q.csproj" />
   </ItemGroup>
 
 </Project>

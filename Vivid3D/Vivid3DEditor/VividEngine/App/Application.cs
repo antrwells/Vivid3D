@@ -7,10 +7,10 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Common.Input;
-using VividEngine.Texture;
-using VividEngine.Shader;
+using Q.Texture;
+using Q.Shader;
 
-namespace VividEngine.App
+namespace Q.App
 {
 
     //opengl callback class

@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// A proxy bitmap namespace.
 /// </summary>
-namespace VividEngine.Pixels
+namespace Q.Pixels
 {
 
     /// <summary>

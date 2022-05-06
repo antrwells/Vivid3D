@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VividEngine.Shader._2D
+namespace Q.Shader._2D
 {
     public class EXBasic2D : Effect
     {
