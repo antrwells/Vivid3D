@@ -18,6 +18,11 @@ namespace VividEngine.Resonance2.Forms
             set;
         }
         
+        public HorizontalScroller HorizontalScroll
+        {
+            get;
+            set;
+        }
         
 
         public IWindowContent()
@@ -27,7 +32,10 @@ namespace VividEngine.Resonance2.Forms
             ChildScroll = true;
             VerticalScroll = new VerticalScroller();
             VerticalScroll.Scroll = false;
+            HorizontalScroll = new HorizontalScroller();
+            HorizontalScroll.Scroll = false;
             Add(VerticalScroll);
+            Add(HorizontalScroll);
 
         }
 
@@ -35,19 +43,29 @@ namespace VividEngine.Resonance2.Forms
         {
             base.OnUpdate();
             int max_y = ContentSize.Y;
+            int max_X = ContentSize.X;
 
             VerticalScroll.MaxValue = max_y;
+            HorizontalScroll.MaxValue = max_X;
 
-            ScrollPosition = new OpenTK.Mathematics.Vector2i(0,(int)(VerticalScroll.Value * max_y));
-
-            Console.Write("AV:" + VerticalScroll.Value);
+            ScrollPosition = new OpenTK.Mathematics.Vector2i((int)(HorizontalScroll.Value*max_X),(int)(VerticalScroll.Value * max_y));
+            if(ScrollPosition.Y<0)
+            {
+                ScrollPosition = new OpenTK.Mathematics.Vector2i(ScrollPosition.X, 0);
+            }
+            if (ScrollPosition.X < 0)
+            {
+                ScrollPosition = new OpenTK.Mathematics.Vector2i(0, ScrollPosition.Y);
+            }
+         //   Console.Write("AV:" + VerticalScroll.Value);
 
             
         }
 
         public override void Resized()
         {
-            VerticalScroll.Set(Size.X - 10,0, 10, Size.Y);
+            VerticalScroll.Set(Size.X - 10,0, 10, Size.Y-10);
+            HorizontalScroll.Set(0, Size.Y - 10, Size.X-10, 10);
         }
 
         public override void OnMouseMove(int x, int y, int x_delta, int y_delta)

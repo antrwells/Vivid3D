@@ -244,9 +244,25 @@ namespace VividEngine.Resonance2
         {
             //GL.Viewport(RenderPosition.X, RenderPosition.Y, Size.X, Size.Y);
             //GL.Viewport(0, RenderPosition.Y-Size.Y, App.AppInfo.Width, Size.Y);
-            //GL.Enable(EnableCap.ScissorTest);
-            //GL.Scissor(0,RenderPosition.Y, App.AppInfo.Width,Size.Y);
-            
+        
+
+
+            if (this is Forms.IWindow || this is Forms.IWindowContent)
+            {
+                int ty = App.AppInfo.Height - (RenderPosition.Y + Size.Y);
+
+                int sy = App.AppInfo.Height - ty;
+
+                GL.Enable(EnableCap.ScissorTest);
+
+                GL.Scissor(RenderPosition.X, ty, Size.X+2, Size.Y-2);
+
+            }
+            else
+            {
+             //   GL.Disable(EnableCap.ScissorTest);
+
+            }
 
             foreach (var form in Child)
             {

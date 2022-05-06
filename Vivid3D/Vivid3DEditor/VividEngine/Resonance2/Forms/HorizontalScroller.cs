@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VividEngine.Resonance2.Forms
 {
-    public  class VerticalScroller : IForm
+    public class HorizontalScroller : IForm
     {
 
         public int CurrentValue
@@ -31,7 +31,7 @@ namespace VividEngine.Resonance2.Forms
         float av2;
 
 
-        public VerticalScroller()
+        public HorizontalScroller()
         {
             Scroll = false;
             //OnMouseDown(0);
@@ -56,13 +56,13 @@ namespace VividEngine.Resonance2.Forms
             base.OnMouseMove(x, y, x_delta, y_delta);
             if (Drag)
             {
-                CurrentValue += y_delta;
+                CurrentValue += x_delta;
                 if (CurrentValue < 0) CurrentValue = 0;
-                if (CurrentValue > Size.Y) CurrentValue = Size.Y;
-
+                if (CurrentValue > Size.X) CurrentValue = Size.X;
+                
             }
-          //  Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(0, (int)av);
-            
+            //  Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(0, (int)av);
+
             // Root.ScrollPosition = new OpenTK.Mathematics.Vector2i(Root.ScrollPosition.X, CurrentValue);
         }
 
@@ -71,33 +71,34 @@ namespace VividEngine.Resonance2.Forms
 
             float yi = (float)(CurrentValue) / (float)(MaxValue);
 
-            float hd = Size.Y / (float)(MaxValue);
+            float hd = Size.X / (float)(MaxValue);
 
             float av = CurrentValue * hd;
 
-            float ov = (float)Size.Y / (float)(MaxValue);
+            float ov = (float)Size.X / (float)(MaxValue);
 
-            float dh = Size.Y * ov;
-
-            float nm = Size.Y - dh;
+            float dh = Size.X * ov;
+            
+            float nm = Size.X - dh;
 
             float ay = CurrentValue;
 
-            if (CurrentValue + dh > Size.Y) {
+            if (CurrentValue + dh > Size.X)
+            {
                 if (dh != float.PositiveInfinity)
                 {
-                    CurrentValue = Size.Y - (int)dh;
+                    CurrentValue = Size.X - (int)dh;
                 }
             }
 
 
 
-            float max_V = Size.Y - (dh);
+            float max_V = Size.X - (dh);
             //float yd = Size.Y - (CurrentValue + dh);
-          av2 = CurrentValue / max_V;
-            
+            av2 = CurrentValue / max_V;
 
-          //  Console.WriteLine("AV:" + av2);
+
+            //  Console.WriteLine("AV:" + av2);
 
             //yd = yd / MaxValue;
 
@@ -108,8 +109,10 @@ namespace VividEngine.Resonance2.Forms
             //base.RenderForm();
             DrawFrame();
             DrawOutline(new OpenTK.Mathematics.Vector4(1, 1, 1, 1));
-            DrawFrame(RenderPosition.X+1, RenderPosition.Y+CurrentValue , Size.X-1, (int)dh, new OpenTK.Mathematics.Vector4(1, 3, 3, 1));
-;        }
+            DrawFrame(RenderPosition.X + CurrentValue, RenderPosition.Y, (int)dh,Size.Y - 1,  new OpenTK.Mathematics.Vector4(1, 3, 3, 1));
+            ;
+        }
 
     }
+
 }

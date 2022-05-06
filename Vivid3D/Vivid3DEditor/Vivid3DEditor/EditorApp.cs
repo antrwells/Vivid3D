@@ -62,7 +62,7 @@ namespace Vivid3DEditor
 
             var frame1 = new IFrame().Set(20, 20, 300, 500);
             var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1") as IButton;
-            var win = new IWindow().Set(20, 20, 300, 400).SetText("Test Window") as IWindow;
+            var win = new IWindow().Set(20, 20, 300, 700).SetText("Test Window") as IWindow;
             var text = new ITextEdit().Set(350, 800, 200, 35).SetText("Test Text") as ITextEdit;
             text.NumericOnly = true;
            // win.Content.ScrollPosition = new OpenTK.Mathematics.Vector2i(50, 0);

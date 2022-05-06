@@ -372,10 +372,12 @@ namespace VividEngine.Resonance2
         public void RenderUI()
         {
             Root.Render();
+            OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ScissorTest);
             if (MainMenu != null)
             {
                 MainMenu.Render();
             }
+            OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.ScissorTest);
 
             RenderCursor();
 
