@@ -77,6 +77,9 @@ namespace VividEngine.Resonance2.Forms
 
             float ov = (float)Size.Y / (float)(MaxValue);
 
+            if (ov > 1) ov = 1;
+
+
             float dh = Size.Y * ov;
 
             float nm = Size.Y - dh;
@@ -87,6 +90,7 @@ namespace VividEngine.Resonance2.Forms
                 if (dh != float.PositiveInfinity)
                 {
                     CurrentValue = Size.Y - (int)dh;
+                    if (CurrentValue < 0) CurrentValue = 0;
                 }
             }
 

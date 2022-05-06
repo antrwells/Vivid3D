@@ -34,9 +34,10 @@ namespace VividEngine.Resonance2.Forms
             VerticalScroll.Scroll = false;
             HorizontalScroll = new HorizontalScroller();
             HorizontalScroll.Scroll = false;
-            Add(VerticalScroll);
             Add(HorizontalScroll);
-
+            
+            Add(VerticalScroll);
+       
         }
 
         public override void OnUpdate()
@@ -48,6 +49,9 @@ namespace VividEngine.Resonance2.Forms
             VerticalScroll.MaxValue = max_y;
             HorizontalScroll.MaxValue = max_X;
 
+         //   Console.WriteLine("MX:" + max_X + " MY:" + max_y);
+            //int 
+
             ScrollPosition = new OpenTK.Mathematics.Vector2i((int)(HorizontalScroll.Value*max_X),(int)(VerticalScroll.Value * max_y));
             if(ScrollPosition.Y<0)
             {
@@ -57,6 +61,10 @@ namespace VividEngine.Resonance2.Forms
             {
                 ScrollPosition = new OpenTK.Mathematics.Vector2i(0, ScrollPosition.Y);
             }
+
+            
+            //Console.WriteLine("SX:" + ScrollPosition.X);
+           // Console.WriteLine("SY:" + ScrollPosition.Y);
          //   Console.Write("AV:" + VerticalScroll.Value);
 
             
@@ -71,7 +79,14 @@ namespace VividEngine.Resonance2.Forms
         public override void OnMouseMove(int x, int y, int x_delta, int y_delta)
         {
             base.OnMouseMove(x, y, x_delta, y_delta);
-
+            if (Input.AppInput.MouseButton[0] == false)
+            {
+                resizeTop = false;
+                resizeLeft = false;
+                resizeRight = false;
+                resizeBottom = false;
+                resizeCorner = false;
+            }
             if (!resizing)
             {
                 if (Within(x, y, RenderPosition.X, RenderPosition.Y, 5, Size.Y))
@@ -100,6 +115,7 @@ namespace VividEngine.Resonance2.Forms
                 }
                 if (Within(x, y, RenderPosition.X, RenderPosition.Y, Size.X, 5))
                 {
+                    Console.WriteLine("Within Top");
                     resizeTop = true;
                     resizeBottom = false;
                     resizeLeft = false;
@@ -122,17 +138,7 @@ namespace VividEngine.Resonance2.Forms
             if (resizing)
             {
 
-                int ra = 0;
-
-                ra = ra + (resizeLeft ? 1 : 0);
-                ra = ra + (resizeRight ? 1 : 0);
-                ra = ra + (resizeBottom ? 1 : 0);
-                ra = ra + (resizeTop ? 1 : 0);
-                ra = ra + (resizeCorner ? 1 : 0);
-                if (ra>1)
-                {
-                    int a = 5;
-                }
+              
 
                 if (resizeLeft)
                 {
@@ -151,7 +157,8 @@ namespace VividEngine.Resonance2.Forms
                 }else
                 if (resizeTop)
                 {
-                    Root.Position = new OpenTK.Mathematics.Vector2i(Root.Position.X, Root.Position.Y + y_delta);
+                    Console.WriteLine("!!!!!!!!!!!!");
+;                    Root.Position = new OpenTK.Mathematics.Vector2i(Root.Position.X, Root.Position.Y + y_delta);
                     Root.Size = new OpenTK.Mathematics.Vector2i(Root.Size.X, Root.Size.Y - y_delta);
                 }
                 if (resizeCorner)
@@ -169,13 +176,15 @@ namespace VividEngine.Resonance2.Forms
             if (resizeLeft || resizeRight || resizeBottom || resizeTop || resizeCorner)
             {
                 resizing = true;
+                Console.WriteLine("Mouse Down Window.");
             }
-            Console.WriteLine("Mouse Down Window.");
+            
         }
 
         public override void OnMouseUp(int button)
         {
             base.OnMouseUp(button);
+            Console.WriteLine("Reset reszie!!!");
             resizing = false;
             //resizeLeft = resizeRight = resizeBottom = resizeTop = false;
             resizeLeft = false;

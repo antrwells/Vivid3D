@@ -57,6 +57,7 @@ namespace VividEngine.Resonance2.Forms
             if (Drag)
             {
                 CurrentValue += x_delta;
+                Console.WriteLine("XD:" + x_delta);
                 if (CurrentValue < 0) CurrentValue = 0;
                 if (CurrentValue > Size.X) CurrentValue = Size.X;
                 
@@ -77,17 +78,22 @@ namespace VividEngine.Resonance2.Forms
 
             float ov = (float)Size.X / (float)(MaxValue);
 
+            if (ov > 1) ov = 1;
+            
             float dh = Size.X * ov;
             
             float nm = Size.X - dh;
 
             float ay = CurrentValue;
 
+            Console.WriteLine("CV:" + CurrentValue);
+
             if (CurrentValue + dh > Size.X)
             {
                 if (dh != float.PositiveInfinity)
                 {
                     CurrentValue = Size.X - (int)dh;
+                    if (CurrentValue < 0) CurrentValue = 0;
                 }
             }
 
