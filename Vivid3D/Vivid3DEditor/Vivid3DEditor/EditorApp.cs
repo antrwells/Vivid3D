@@ -62,7 +62,9 @@ namespace Vivid3DEditor
 
             var frame1 = new IFrame().Set(20, 20, 300, 500);
             var but1 = new IButton().Set(20, 20, 200, 35).SetText("Button 1") as IButton;
-            var win = new IWindow().Set(20, 20, 300, 700).SetText("Test Window") as IWindow;
+            var win = new IWindow().Set(20, 20, 300, 300).SetText("Test Window") as IWindow;
+            var img = new IImage().Set(0, 0, 2000,2000) as IImage;
+            img.SetImage(new Texture2D("data/test1.jpg"));
             var text = new ITextEdit().Set(350, 800, 200, 35).SetText("Test Text") as ITextEdit;
             text.NumericOnly = true;
            // win.Content.ScrollPosition = new OpenTK.Mathematics.Vector2i(50, 0);
@@ -80,8 +82,9 @@ namespace Vivid3DEditor
 
             };
 
-            win.Content.Add(but1);
-            win.Content.Add(text);
+            win.Content.Add(img);
+            //win.Content.Add(but1);
+            //win.Content.Add(text);
             UI.Add(win);
             
             base.InitApp();

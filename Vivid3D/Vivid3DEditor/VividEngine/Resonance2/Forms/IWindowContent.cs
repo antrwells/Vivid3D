@@ -12,13 +12,13 @@ namespace VividEngine.Resonance2.Forms
         private bool resizeLeft, resizeRight, resizeBottom, resizeTop, resizeCorner;
         private bool resizing = false;
 
-        public VerticalScroller VerticalScroll
+        public ViewScroller VerticalScroll
         {
             get;
             set;
         }
         
-        public HorizontalScroller HorizontalScroll
+        public ViewScroller HorizontalScroll
         {
             get;
             set;
@@ -30,11 +30,13 @@ namespace VividEngine.Resonance2.Forms
             resizeLeft = resizeRight = resizeBottom = resizeTop = resizeCorner = false;
             Color = new OpenTK.Mathematics.Vector4(0.6f, 0.6f, 0.6f, 1.0f);
             ChildScroll = true;
-            VerticalScroll = new VerticalScroller();
+            VerticalScroll = new ViewScroller();
             VerticalScroll.Scroll = false;
-            HorizontalScroll = new HorizontalScroller();
+            HorizontalScroll = new ViewScroller();
             HorizontalScroll.Scroll = false;
+            HorizontalScroll.Horizontal = true;
             Add(HorizontalScroll);
+
             
             Add(VerticalScroll);
        
@@ -53,7 +55,8 @@ namespace VividEngine.Resonance2.Forms
             //int 
 
             ScrollPosition = new OpenTK.Mathematics.Vector2i((int)(HorizontalScroll.Value*max_X),(int)(VerticalScroll.Value * max_y));
-            if(ScrollPosition.Y<0)
+           // Console.WriteLine("SX:" + HorizontalScroll.Value + " SY:" + VerticalScroll.Value);
+            if (ScrollPosition.Y<0)
             {
                 ScrollPosition = new OpenTK.Mathematics.Vector2i(ScrollPosition.X, 0);
             }
@@ -197,14 +200,19 @@ namespace VividEngine.Resonance2.Forms
 
         public override void RenderForm()
         {
+
+            Child.Remove(VerticalScroll);
+            Child.Remove(HorizontalScroll);
+            Add(VerticalScroll, HorizontalScroll);
+
             //base.RenderForm();
             Color = new OpenTK.Mathematics.Vector4(1, 1, 1, 1);
             DrawFrame();
             Color = new OpenTK.Mathematics.Vector4(0.6f, 0.6f, 0.6f, 1.0f);
-            DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X + Size.X, RenderPosition.Y, Color);
-            DrawLine(RenderPosition.X, RenderPosition.Y, RenderPosition.X, RenderPosition.Y + Size.Y,Color);
-            DrawLine(RenderPosition.X, RenderPosition.Y+Size.Y, RenderPosition.X+Size.X, RenderPosition.Y + Size.Y,Color);
-            DrawLine(RenderPosition.X+Size.X, RenderPosition.Y, RenderPosition.X+Size.X, RenderPosition.Y + Size.Y,Color);
+            DrawLine(RenderPosition.X-1, RenderPosition.Y, RenderPosition.X-1 + Size.X, RenderPosition.Y, Color);
+            DrawLine(RenderPosition.X-1, RenderPosition.Y, RenderPosition.X-1, RenderPosition.Y + Size.Y,Color);
+            DrawLine(RenderPosition.X-1, RenderPosition.Y+Size.Y, RenderPosition.X-1+Size.X, RenderPosition.Y + Size.Y,Color);
+            DrawLine(RenderPosition.X-1+Size.X, RenderPosition.Y, RenderPosition.X-1+Size.X, RenderPosition.Y + Size.Y,Color);
 
           //  DrawFrame(RenderPosition.X, RenderPosition.Y, ContentSize.X, ContentSize.Y, new OpenTK.Mathematics.Vector4(1, 1, 1, 0.7f));
 

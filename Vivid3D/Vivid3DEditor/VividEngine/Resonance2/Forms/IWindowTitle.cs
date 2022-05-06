@@ -57,6 +57,7 @@ namespace VividEngine.Resonance2.Forms
             if (!Drag) return;     
             //base.OnMouseMove(x, y, x_delta, y_delta);
             Root.Position = new OpenTK.Mathematics.Vector2i(Root.Position.X + x_delta, Root.Position.Y + y_delta);
+           //Add to moving window.
         }
 
     }

@@ -119,12 +119,22 @@ namespace VividEngine.Resonance2
 
                 foreach(var form in Child)
                 {
-                    var x = form.Position.X;// + form.Size.X;
-                    var y = form.Position.Y;// + form.Size.Y;
+                    var x = form.Position.X+ (form.Size.X-Size.X);
+                    var y = form.Position.Y+ (form.Size.Y-Size.Y);
+                                     
+                  
+                    // x = x - Size.X/2;
+                    //y = y - Size.Y;
+                    
+//                    x = form.Position.X 
+                
+                    
                     if (x > bx) bx = x;
                     if (y > by) by = y;
                 }
 
+
+               
                 return new Vector2i(bx, by);
 
             }
@@ -255,7 +265,7 @@ namespace VividEngine.Resonance2
 
                 GL.Enable(EnableCap.ScissorTest);
 
-                GL.Scissor(RenderPosition.X, ty, Size.X+2, Size.Y-2);
+                GL.Scissor(RenderPosition.X-1, ty, Size.X+3, Size.Y-2);
 
             }
             else
@@ -275,7 +285,7 @@ namespace VividEngine.Resonance2
             }
         }
 
-        public bool InBounds(int x,int y)
+        public virtual bool InBounds(int x,int y)
         {
             if (x >= RenderPosition.X && x <= RenderPosition.X + Size.X && y >= RenderPosition.Y && y <= RenderPosition.Y + Size.Y)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VividEngine.Resonance2.Forms
 {
-    public class HorizontalScroller : IForm
+    public class HorizontalSc2roller : IForm
     {
 
         public int CurrentValue
@@ -31,7 +31,7 @@ namespace VividEngine.Resonance2.Forms
         float av2;
 
 
-        public HorizontalScroller()
+        public HorizontalSc2roller()
         {
             Scroll = false;
             //OnMouseDown(0);
@@ -78,7 +78,7 @@ namespace VividEngine.Resonance2.Forms
 
             float ov = (float)Size.X / (float)(MaxValue);
 
-            if (ov > 1) ov = 1;
+            if(ov>1) ov =1;
             
             float dh = Size.X * ov;
             
@@ -103,7 +103,10 @@ namespace VividEngine.Resonance2.Forms
             //float yd = Size.Y - (CurrentValue + dh);
             av2 = CurrentValue / max_V;
 
-
+            if (av2 > 1)
+            {
+                av2 = 1;
+            }
             //  Console.WriteLine("AV:" + av2);
 
             //yd = yd / MaxValue;
